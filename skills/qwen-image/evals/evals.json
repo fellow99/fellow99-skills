@@ -1,0 +1,38 @@
+{
+  "skill_name": "千问 - 文生图",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我生成一张图片：冬日北京的都市街景，中式商铺，朱红色外墙，檐下悬挂灯笼，湿润鹅卵石路面，一位白发老人背对镜头观赏书法作品，写实风格，2048x2048 分辨率",
+      "expected_output": "使用 qwen-image-2.0-pro 模型调用 API，返回生成的图像 URL",
+      "files": [],
+      "model": "qwen-image-2.0-pro",
+      "parameters": {
+        "size": "2048*2048",
+        "n": 1
+      }
+    },
+    {
+      "id": 2,
+      "prompt": "我需要用 qwen-image-2.0-pro 生成一张电商海报，C4D 风格，清新蓝色调，展示宠物粮产品，3D 建模小猫点缀，要有立体艺术字体展示促销信息",
+      "expected_output": "使用指定的 qwen-image-2.0-pro 模型，调用同步 API 生成海报图像",
+      "files": [],
+      "model": "qwen-image-2.0-pro",
+      "parameters": {
+        "size": "2048*2048",
+        "watermark": false
+      }
+    },
+    {
+      "id": 3,
+      "prompt": "生成一张写实人像摄影：亚洲年轻女性，齐刘海长直发，身穿马海毛毛衣，坐在复古沙发上，手持红色番茄，胶片颗粒感，复古文艺风格",
+      "expected_output": "调用千问文生图 API 生成写实人像，返回图像 URL 并提醒 24 小时有效期",
+      "files": [],
+      "model": "qwen-image-2.0-pro",
+      "parameters": {
+        "size": "2048*2048",
+        "prompt_extend": true
+      }
+    }
+  ]
+}
