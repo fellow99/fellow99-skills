@@ -218,10 +218,10 @@ git commit -m "regression: complete regression testing for <feature-name> — al
 **Phases completed**: Specification → Development → Testing → Bug Fix → Regression
 
 **Final artifacts:**
-- specs/<feature>/spec.md
-- specs/<feature>/plan.md
-- specs/<feature>/tasks.md
-- specs/<feature>/test-cases.md
+- specs/<需求编号>/spec.md
+- specs/<需求编号>/plan.md
+- specs/<需求编号>/tasks.md
+- specs/<需求编号>/test-cases.md
 - logs/<YYYYMMDD>-<N>/DEV_CHECKLIST.md
 - logs/<YYYYMMDD>-<N>/TEST_REPORT.md
 

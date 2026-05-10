@@ -13,15 +13,15 @@ Transform `tasks.md` into working code, tracked via `DEV_CHECKLIST.md`.
 Read these documents before writing any code:
 
 **Required:**
-- `specs/<feature>/spec.md` — What to build
-- `specs/<feature>/plan.md` — How to build it (tech stack, architecture, file structure)
-- `specs/<feature>/tasks.md` — What order to build it in
+- `specs/<需求编号>/spec.md` — What to build
+- `specs/<需求编号>/plan.md` — How to build it (tech stack, architecture, file structure)
+- `specs/<需求编号>/tasks.md` — What order to build it in
 
 **Optional (if they exist):**
-- `specs/<feature>/data-model.md` — Entity definitions
-- `specs/<feature>/contracts/` — API endpoint specs
-- `specs/<feature>/research.md` — Technical decisions and rationale
-- `specs/<feature>/quickstart.md` — Integration scenarios
+- `specs/<需求编号>/data-model.md` — Entity definitions
+- `specs/<需求编号>/contracts/` — API endpoint specs
+- `specs/<需求编号>/research.md` — Technical decisions and rationale
+- `specs/<需求编号>/quickstart.md` — Integration scenarios
 
 Also scan the broader project for context:
 - Existing code patterns (naming conventions, error handling, auth flow)
@@ -53,7 +53,7 @@ Create `<LOG_DIR>/DEV_CHECKLIST.md` with this structure:
 
 **Date**: YYYY-MM-DD
 **Branch**: <branch-name>
-**Feature directory**: specs/<feature>/
+**Feature directory**: specs/<需求编号>/
 
 ## Progress
 

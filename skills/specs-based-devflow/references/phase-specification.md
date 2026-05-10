@@ -1,8 +1,10 @@
 # Specification Phase — Detailed Guide
 
-This phase transforms a raw requirement into a complete set of specification documents that drive implementation and testing. The output is a `specs/<feature>/` directory containing all necessary artifacts.
+ This phase transforms a raw requirement into a complete set of specification documents that drive implementation and testing. The output is a `specs/<需求编号>/` directory containing all necessary artifacts.
 
 **Prerequisite**: The user must have already provided the **需求编号** (requirement ID) and **需求名称** (requirement name) during the requirements gathering step. These are used for branch naming and spec directory structure throughout this phase.
+
+**Directory naming rule**: The spec subdirectory MUST use the **需求编号** as its name. For example, if the requirement ID is `REQ-001`, the directory is `specs/REQ-001/`. This overrides speckit's default `<number>-<short-name>` convention — when invoking `speckit-specify`, pass the requirement ID as the `--short-name` parameter so that the created directory follows this rule.
 
 ## Goal
 
@@ -52,11 +54,17 @@ Map the requirement to existing project context:
 Invoke the `speckit-specify` skill to create the initial feature specification.
 
 **What happens:**
-1. A short name is generated for the feature (e.g., "user-auth")
-2. A new branch is created (e.g., `1-user-auth`)
-3. `.specify/scripts/bash/create-new-feature.sh` is run to scaffold the feature directory
+1. The 需求编号 is used as the feature's short name (passed via `--short-name` to speckit)
+2. A new branch is created (e.g., `1-REQ-001`)
+3. `.specify/scripts/bash/create-new-feature.sh` is run with `--short-name "<需求编号>"` to scaffold the feature directory as `specs/<需求编号>/`
 4. The spec template is loaded and filled based on the requirement analysis
-5. `specs/<feature>/spec.md` is written
+5. `specs/<需求编号>/spec.md` is written
+
+**Critical**: When calling `create-new-feature.sh`, always pass `--short-name "<需求编号>"` so the spec directory matches the requirement ID. For example:
+```bash
+.specify/scripts/bash/create-new-feature.sh --json --number 1 --short-name "REQ-001" "Add user authentication"
+```
+This ensures the directory is `specs/REQ-001/` instead of speckit's default `specs/1-user-auth/`.
 
 **Your role during specify:**
 - Ensure the requirement description is passed accurately
@@ -103,7 +111,7 @@ Invoke `speckit-plan` to generate the technical implementation plan.
 If quality gates are desired, invoke `speckit-checklist` to validate requirements quality.
 
 **What happens:**
-- A checklist is generated in `specs/<feature>/checklists/<domain>.md`
+- A checklist is generated in `specs/<需求编号>/checklists/<domain>.md`
 - Each item is a "unit test for English" — checking whether the spec is well-written, not whether the code works
 
 **When to use:**
@@ -183,12 +191,12 @@ This is NOT a speckit skill — you generate this directly based on the spec and
   - End-to-end user journeys
   - Data consistency between frontend and backend
 
-**Where to save**: `specs/<feature>/test-cases.md`
+**Where to save**: `specs/<需求编号>/test-cases.md`
 
 ### 10. Commit Specification Artifacts
 
 ```bash
-git add specs/<feature>/
+git add specs/<需求编号>/
 git commit -m "specification: add <feature-name> spec, plan, tasks, and test cases"
 ```
 
@@ -203,10 +211,10 @@ Present the completion report:
 **Branch**: <branch-name>
 
 **Artifacts produced:**
-- specs/<feature>/spec.md
-- specs/<feature>/plan.md
-- specs/<feature>/tasks.md
-- specs/<feature>/test-cases.md
+- specs/<需求编号>/spec.md
+- specs/<需求编号>/plan.md
+- specs/<需求编号>/tasks.md
+- specs/<需求编号>/test-cases.md
 - [other artifacts: research.md, data-model.md, contracts/, quickstart.md]
 
 **Key decisions:**

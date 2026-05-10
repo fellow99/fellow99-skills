@@ -114,7 +114,7 @@ If the dev server starts, note the URL (typically `http://localhost:XXXX`) — t
 
 | Input | Description | Example |
 |---|---|---|
-| **需求编号** (Requirement ID) | Unique identifier for this requirement, used for branch naming, spec directory, and traceability | `REQ-001`, `2026-010`, `SPRINT3-5` |
+ | **需求编号** (Requirement ID) | Unique identifier for this requirement, used for spec subdirectory name, branch naming, and traceability. This becomes the subdirectory name under `specs/` — e.g., `specs/REQ-001/` | `REQ-001`, `2026-010`, `SPRINT3-5` |
 | **需求名称** (Requirement Name) | Short descriptive name for the feature, used for spec directory and documentation | `用户认证`, `订单导出`, `权限管理` |
 | **需求描述** (Requirement Description) | Detailed description of what needs to be built | User's feature description |
 
@@ -153,16 +153,16 @@ Summary of the phase:
 1. Scan existing project specs/documentation to understand the codebase
 2. Analyze the new requirement against existing architecture
 3. Execute speckit skills in order:
-   - `speckit-specify` → generates `specs/<feature>/spec.md`
+   - `speckit-specify` → generates `specs/<需求编号>/spec.md`
    - `speckit-clarify` → (optional) refines spec if ambiguities found
-   - `speckit-plan` → generates `specs/<feature>/plan.md` + design artifacts
-   - `speckit-tasks` → generates `specs/<feature>/tasks.md`
+   - `speckit-plan` → generates `specs/<需求编号>/plan.md` + design artifacts
+   - `speckit-tasks` → generates `specs/<需求编号>/tasks.md`
    - `speckit-analyze` → (optional) cross-artifact consistency check
-4. Generate `test-cases.md` from the spec and plan
-5. Commit all artifacts to git (if git is available)
-6. Report phase results and ask for confirmation before next phase
+ 4. Generate `test-cases.md` from the spec and plan
+ 5. Commit all artifacts to git (if git is available)
+ 6. Report phase results and ask for confirmation before next phase
 
-**Phase output**: `specs/<feature>/` directory containing spec.md, plan.md, tasks.md, test-cases.md, and any design artifacts.
+**Phase output**: `specs/<需求编号>/` directory containing spec.md, plan.md, tasks.md, test-cases.md, and any design artifacts. The subdirectory name is the requirement ID provided by the user — this overrides speckit's default `<number>-<short-name>` naming convention.
 
 ### Step 3: Development Phase
 

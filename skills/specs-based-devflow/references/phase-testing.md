@@ -71,7 +71,7 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/ 2>/dev/null
 
 ### 3. Read Test Cases
 
-Read `specs/<feature>/test-cases.md` thoroughly. Understand:
+Read `specs/<需求编号>/test-cases.md` thoroughly. Understand:
 - Total number of test cases
 - Priority distribution (P1/P2/P3)
 - Types of tests (API, UI, integration)
