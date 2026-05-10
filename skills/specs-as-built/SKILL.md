@@ -1,5 +1,5 @@
 ---
-name: opus-specs-as-built
+name: specs-as-built
 description: "Generate comprehensive as-built specification documentation for existing codebases. Use this skill when the user wants to reverse-document a completed project, create spec.md and plan.md for existing code, generate architecture docs from source code, or produce a full documentation suite (constitution, specs, plans, data models, API contracts) for a codebase that already exists. Trigger on phrases like 'document this codebase', 'write specs for existing code', 'reverse-engineer documentation', 'create spec documents', 'as-built documentation', or any request to analyze finished code and produce structured specification artifacts. Also use when the user wants to baseline an existing system before refactoring."
 ---
 
