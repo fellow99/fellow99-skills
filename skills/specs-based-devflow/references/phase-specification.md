@@ -2,6 +2,8 @@
 
 This phase transforms a raw requirement into a complete set of specification documents that drive implementation and testing. The output is a `specs/<feature>/` directory containing all necessary artifacts.
 
+**Prerequisite**: The user must have already provided the **需求编号** (requirement ID) and **需求名称** (requirement name) during the requirements gathering step. These are used for branch naming and spec directory structure throughout this phase.
+
 ## Goal
 
 Produce these artifacts in order:

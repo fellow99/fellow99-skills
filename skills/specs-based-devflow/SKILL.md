@@ -110,16 +110,24 @@ If the dev server starts, note the URL (typically `http://localhost:XXXX`) — t
 
 ### Step 1: Requirements Gathering
 
-**If the user already provided a clear requirement**, confirm your understanding and proceed.
+**Required inputs from the user — this is a hard gate, the workflow CANNOT proceed without them:**
 
-**If the requirement is missing or vague**, ask targeted questions:
+| Input | Description | Example |
+|---|---|---|
+| **需求编号** (Requirement ID) | Unique identifier for this requirement, used for branch naming, spec directory, and traceability | `REQ-001`, `2026-010`, `SPRINT3-5` |
+| **需求名称** (Requirement Name) | Short descriptive name for the feature, used for spec directory and documentation | `用户认证`, `订单导出`, `权限管理` |
+| **需求描述** (Requirement Description) | Detailed description of what needs to be built | User's feature description |
+
+If the user has not provided all three, ask for the missing ones before proceeding. These are non-negotiable — they drive branch naming, spec directory structure, and artifact traceability throughout the entire workflow.
+
+**If the requirement description is vague**, ask targeted follow-up questions:
 - What is the core user-facing behavior?
 - Who are the actors (user roles)?
 - What data entities are involved?
 - Are there specific constraints (performance, security, compatibility)?
 - What existing features does this interact with?
 
-Do NOT proceed to specification until you can state the requirement in a single coherent paragraph that the user confirms.
+Do NOT proceed to specification until all three inputs (编号, 名称, 描述) are confirmed by the user and you can state the requirement in a single coherent paragraph.
 
 **After confirmation**, ask which phases the user wants to execute:
 
