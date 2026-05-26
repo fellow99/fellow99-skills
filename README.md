@@ -10,6 +10,7 @@ fellow99 的技能集，用于日常工作自动化和提升效率。
 | **千问 - 文生图** | 使用阿里云百炼千问 API 生成图像 | 需要生成图片、创建海报、插画、封面图等视觉内容 |
 | **opus-specs-as-built** | 为已有代码库生成逆向规格文档（as-built spec） | 需要为现有项目编写 spec.md、plan.md、架构文档，或在重构前基线化系统 |
 | **openrouter-image-generation** | 使用 OpenRouter API 生成图像 | 需要生成图片、创建海报、插画、封面图等视觉内容，支持 Gemini、Flux、Sourceful 等模型 |
+| **codegraph-cli** | 使用 `codegraph` CLI 通过语义知识图谱探索、搜索和理解代码库 | 需要理解代码库结构、查找符号定义、分析调用关系、评估变更影响，替代繁琐的 grep/find/Read 循环 |
 
 > 💡 每个技能的详细用法请参考 `skills/<skill-name>/SKILL.md` 和 `skills/<skill-name>/README.md`
 
@@ -43,11 +44,9 @@ ClawHub 按"单个 skill"安装，不是把整个 marketplace 一次性装进去
 ```bash
 clawhub install opencode-api
 clawhub install qwen-image
-<<<<<<< .mine
 clawhub install opus-specs-as-built
-=======
 clawhub install openrouter-image-generation
->>>>>>> .theirs
+clawhub install codegraph-cli
 ```
 
 根据 ClawHub 的 registry 规则，发布到 ClawHub 的 skill 会以 `MIT-0` 许可分发。
