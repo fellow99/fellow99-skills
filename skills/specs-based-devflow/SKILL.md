@@ -3,18 +3,19 @@ name: specs-based-devflow
 description: >
   End-to-end development workflow from raw requirements to shipped code. Orchestrates the full
   pipeline: requirements gathering, specification (via speckit or custom tools), implementation,
-  testing, bug fixing, and regression testing. Use this skill whenever a user describes a new
-  feature or requirement and wants to go through the complete development lifecycle — not just
-  planning or just coding, but the full disciplined flow from spec to verified working software.
-  Also trigger when the user mentions "dev flow", "development workflow", "full development
-  process", "spec to code", "requirement to delivery", or wants to execute multiple phases
-  (spec → dev → test → fix → regression) in sequence. Even if the user only mentions one phase,
-  consider offering the full flow since the phases are designed to work together.
+  code review, testing, bug fixing, and regression testing. Use this skill whenever a user
+  describes a new feature or requirement and wants to go through the complete development
+  lifecycle — not just planning or just coding, but the full disciplined flow from spec to
+  verified working software. Also trigger when the user mentions "dev flow", "development
+  workflow", "full development process", "spec to code", "requirement to delivery", or wants
+  to execute multiple phases (spec → dev → review → test → fix → regression) in sequence.
+  Even if the user only mentions one phase, consider offering the full flow since the phases
+  are designed to work together.
 ---
 
 # Specs-Based Development Flow
 
-A structured, phase-gated workflow that carries a feature from raw requirements through specification, development, testing, bug fixing, and regression testing. Each phase produces artifacts the next phase consumes, creating a traceable chain from requirement to verified code.
+A structured, phase-gated workflow that carries a feature from raw requirements through specification, development, code review, testing, bug fixing, and regression testing. Each phase produces artifacts the next phase consumes, creating a traceable chain from requirement to verified code.
 
 ## Why This Skill Exists
 
@@ -23,17 +24,17 @@ Most AI-assisted development jumps straight from "build X" to writing code, skip
 ## Core Principles
 
 - **Phase gates**: Each phase must complete and be confirmed before the next begins. This prevents accumulating technical debt.
-- **Artifact-driven**: Every phase produces concrete files (spec.md, test-cases.md, DEV_CHECKLIST.md, TEST_CHECKLIST.md, test reports). These are the source of truth, not conversation history.
+- **Artifact-driven**: Every phase produces concrete files (spec.md, test-cases.md, DEV_CHECKLIST.md, REVIEW_REPORT.md, TEST_CHECKLIST.md, test reports). These are the source of truth, not conversation history.
 - **Human in the loop**: By default, pause between phases for user confirmation. The user can opt into continuous execution if they trust the flow.
 - **Tool-agnostic core**: The workflow works with speckit by default, but can adapt if the user specifies different specification tools.
 
 ## Workflow Overview
 
 ```
-Preparation → Specification → Development → Testing → Bug Fix → Regression
-     ↓              ↓             ↓            ↓          ↓          ↓
-  env check     spec.md       code +        test       fixes     final
-  git setup     plan.md       DEV_LOG       report     report    report
+Preparation → Specification → Development → Code Review → Testing → Bug Fix → Regression
+     ↓              ↓             ↓            ↓           ↓          ↓          ↓
+  env check     spec.md       code +       review       test       fixes     final
+  git setup     plan.md       DEV_LOG      report       report     report    report
                 tasks.md
                 test-cases.md
 ```
@@ -62,6 +63,29 @@ Available speckit skills:
 ```
 
 If the user wants to use different specification tools, record that preference — it affects how later phases run.
+
+**0.1b Detect code review skills**
+
+Check whether `requesting-code-review` and `receiving-code-review` are installed:
+
+```bash
+ls ~/.config/opencode/skills/requesting-code-review 2>/dev/null && echo "requesting-code-review: found"
+ls ~/.config/opencode/skills/receiving-code-review 2>/dev/null && echo "receiving-code-review: found"
+```
+
+- Both installed → proceed. Code Review phase will use them.
+- One or both missing → ask the user during setup:
+
+```
+Code review skills (requesting-code-review, receiving-code-review) are not installed.
+These provide structured, categorized code review in the Code Review phase.
+
+1. Auto-install now (recommended) — npx skills add from obra/superpowers
+2. Use built-in fallback — simpler inline review, less rigorous than dedicated skills
+3. Skip code review entirely — not recommended, removes a quality gate
+```
+
+Record the user's choice. This avoids surprises at Step 3.5.
 
 **0.2 Confirm working directory**
 
@@ -135,9 +159,10 @@ Do NOT proceed to specification until all three inputs (编号, 名称, 描述) 
 Available phases:
 1. Specification — Generate spec.md, plan.md, tasks.md, test-cases.md
 2. Development — Implement the feature per spec
-3. Testing — Run test cases (backend API + frontend UI)
-4. Bug Fix — Fix issues found in testing
-5. Regression — Re-test fixed issues
+3. Code Review — Review implemented code before testing
+4. Testing — Run test cases (backend API + frontend UI)
+5. Bug Fix — Fix issues found in testing
+6. Regression — Re-test fixed issues
 
 Which phases should I execute? (default: all, with confirmation between each)
 ```
@@ -183,6 +208,50 @@ Summary of the phase:
 8. Report phase results and ask for confirmation before next phase
 
 **Phase output**: Implemented code + `<project>/logs/<YYYYMMDD>-<N>/DEV_CHECKLIST.md`
+
+### Step 3.5: Code Review Phase
+
+**Prerequisite**: This phase works best with the `requesting-code-review` and `receiving-code-review` skills from `obra/superpowers`. If they are not installed, a built-in fallback review will be used (less rigorous but functional).
+
+Install with:
+```bash
+npx skills add https://github.com/obra/superpowers --skill requesting-code-review
+npx skills add https://github.com/obra/superpowers --skill receiving-code-review
+```
+
+Read the detailed instructions: `references/phase-code-review.md`
+
+Summary of the phase:
+
+**If dedicated skills are available (preferred path):**
+1. Load `requesting-code-review` skill → dispatch a reviewer subagent with:
+   - Implementation summary (what was built and how)
+   - Requirements/spec reference (`specs/<需求编号>/spec.md`)
+   - Commit range (the diff since the previous phase)
+   - Categorized output: **Critical** (fix immediately), **Important** (fix before proceeding), **Minor** (note for later)
+2. Create `REVIEW_REPORT.md` in the log directory with the reviewer's findings
+3. Load `receiving-code-review` skill → process feedback:
+   - Verify each point against actual codebase behavior and test coverage
+   - Ask for clarification on ambiguous items before implementing anything
+   - Push back on suggestions that break functionality, lack context, violate YAGNI, or conflict with established decisions
+   - Fix Critical and Important items in priority order, testing each fix individually
+   - Acknowledge correct feedback through action (not gratitude)
+4. If any Critical items were found and fixed, re-run step 1 (re-review) to confirm they're resolved
+5. Commit fixes to git with a `code-review-fix` commit
+
+**If dedicated skills are unavailable (built-in fallback):**
+1. Manually construct a review prompt with: implementation summary, spec reference, and `git diff` output
+2. Dispatch the review to a general-purpose agent (or yourself, as orchestrator) with explicit instruction to categorize findings as Critical / Important / Minor
+3. Write findings into `REVIEW_REPORT.md`
+4. For each finding: verify against codebase, fix Critical + Important items in priority order
+5. No re-review step (fallback is intentionally lighter)
+6. Commit fixes to git
+
+**Phase gate (both paths):**
+- Proceed to Testing only when no Critical items remain
+- If unresolved Critical items exist, pause and ask the user for direction
+
+**Phase output**: `<project>/logs/<YYYYMMDD>-<N>/REVIEW_REPORT.md` + code review fixes
 
 ### Step 4: Testing Phase
 
@@ -299,6 +368,8 @@ git commit -m "<phase-name>: <brief description of what was accomplished>"
 Use the phase name as a prefix:
 - `specification: add user auth feature spec and test cases`
 - `development: implement user auth login and registration`
+- `code-review: review feedback — 2 critical, 3 important, 5 minor`
+- `code-review-fix: fix token validation and null pointer in auth middleware`
 - `testing: complete test report — 8 pass, 2 fail`
 - `bugfix: fix token refresh and null user redirect`
 - `regression: all 2 previously failed tests now pass`
@@ -308,6 +379,8 @@ Use the phase name as a prefix:
 - **Build fails in preparation**: Report error, ask user whether to proceed or fix first
 - **Dev server won't start**: Report error, ask user for configuration. Don't guess at credentials or env vars.
 - **Speckit skill fails**: Report the error from the skill output. Suggest running the skill standalone for debugging. Ask whether to retry or skip.
+- **Code review skills not installed**: Handled at Step 0.1b — user chooses auto-install, fallback, or skip before reaching Step 3.5. No surprise at phase execution time.
+- **Code review reveals critical design flaw**: Pause the workflow. The spec may need revision before continuing development. Suggest going back to specification.
 - **Test reveals critical design flaw**: Pause the workflow. The spec may need revision before continuing development. Suggest going back to specification.
 - **Bug fix introduces new regressions**: Do NOT proceed to regression. Go back to bug fix phase. Report the regression.
 
@@ -327,6 +400,22 @@ speckit-implement  → code         (from tasks.md)
 
 Each skill depends on the output of the previous one. If a skill's prerequisite artifact is missing, the skill will error — that's expected and means you need to run the prior skill first.
 
+## Quick Reference: Code Review Skills (obra/superpowers)
+
+These skills handle the two sides of code review. Install once, use in the Code Review phase.
+
+```bash
+npx skills add https://github.com/obra/superpowers --skill requesting-code-review
+npx skills add https://github.com/obra/superpowers --skill receiving-code-review
+```
+
+| Skill | Role | What it does |
+|---|---|---|
+| `requesting-code-review` | Dispatch | Sends code context to a reviewer subagent; returns feedback categorized as Critical / Important / Minor |
+| `receiving-code-review` | Receive | Evaluates feedback with technical rigor; verifies against actual code; pushes back on invalid items; applies fixes in priority order |
+
+**Design rationale**: These are separate skills because requesting and receiving review require opposite mindsets. Requesting is about precision of context (what to send). Receiving is about critical thinking (what to accept and how to fix). Keeping them independent lets each evolve on its own cadence and lets other workflows reuse them independently.
+
 ## When Things Go Off Track
 
 This workflow is a guide, not a straitjacket. Use judgment:
@@ -341,6 +430,7 @@ This workflow is a guide, not a straitjacket. Use judgment:
 - `references/phase-preparation.md` — Detailed preparation checklist and environment setup
 - `references/phase-specification.md` — Specification phase step-by-step guide
 - `references/phase-development.md` — Development phase with Playwright debugging
+- `references/phase-code-review.md` — Code review phase: requesting and receiving review
 - `references/phase-testing.md` — Testing phase with curl + Playwright
 - `references/phase-bugfix.md` — Bug fix phase with live debugging
 - `references/phase-regression.md` — Regression testing phase
