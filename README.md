@@ -21,14 +21,14 @@ fellow99 的技能集，用于日常工作自动化和提升效率。
 ## 前置要求
 
 - 已安装 Node.js 环境
-- 能够运行 `npx bun` 命令
+- 能够运行 `npx` 命令
 
 ## 安装
 
 ### 快速安装（推荐）
 
 ```bash
-npx skills add fellow99/fellow99-skills
+npx skills add https://github.com/fellow99/fellow99-skills
 ```
 
 ### 按需安装单个技能
@@ -46,20 +46,6 @@ npx skills add https://github.com/fellow99/fellow99-skills --skill esp32-image-t
 npx skills add https://github.com/fellow99/fellow99-skills --skill harmonyos-app-dev
 npx skills add https://github.com/fellow99/fellow99-skills --skill harmonyos-app-testing
 ```
-
-### 发布到 skills.sh
-
-本仓库支持将每个 `skills/*` 目录作为独立 skill 发布到 [skills.sh](https://skills.sh)。
-
-```bash
-# 预览将要发布的变更
-./scripts/sync-skills-sh.sh --dry-run
-
-# 发布 ./skills 下所有已变更的 skill
-./scripts/sync-skills-sh.sh --all
-```
-
-发布后，用户可以在 skills.sh 上浏览和安装。
 
 ### 告诉 AI Agent
 
