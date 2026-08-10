@@ -1,6 +1,6 @@
 ---
 name: harmonyos-app-testing
-description: Drive HarmonyOS / OpenHarmony apps running on a device or emulator via the `hdc` toolchain — build → install → launch → inspect → interact, all from the command line, no DevEco Studio GUI required. Use this skill whenever the task involves launching a HarmonyOS / OpenHarmony emulator (`Emulator -start`), installing or starting a HAP, dumping the on-screen UI tree, viewing or filtering `hilog` output, injecting taps / swipes / drags / flings / multi-finger gestures / key events / text, taking screenshots, recording video, or in general "interacting with" / "testing" / "automating" / "inspecting" / "driving" / "QA-ing" a HarmonyOS application. Trigger on direct mentions of `hdc`, `uitest`, `hilog`, `aa start`, `bm install`, `snapshot_display`, `hvigorw`, `Emulator -list`, "HarmonyOS emulator", "OpenHarmony device", `.hap` files, HarmonyOS bundle names (e.g. `com.example.*` ability launching), or `EntryAbility`. Also trigger on symptom phrases that signal the well-known HarmonyOS tooling gotchas this skill solves: `ERR_WORKER_INVALID_EXEC_ARGV`, `--openssl-legacy-provider`, `NODE_OPTIONS` errors from `hvigorw`, `hdc file recv` pulling tiny / garbled files on Git Bash / MSYS, `hilog` blocking forever in a script, or `aa start` / `bm install` "multiple targets" errors with both an emulator and a phone connected. Prefer this skill whenever the user wants commands that actually work on real HarmonyOS 6.x / NEXT emulators and devices. Do NOT use for writing ArkTS/ArkUI application code, designing HarmonyOS components, configuring `module.json5` permissions, or for Android/adb tasks — this skill is purely the host-side CLI toolchain for driving an already-built app.
+description: Drive HarmonyOS / OpenHarmony apps via the `hdc` CLI toolchain — build, install, launch, inspect, and interact with apps on emulators or devices without DevEco Studio GUI. Use when the task involves `hdc`, `uitest`, `hilog`, `aa start`, `bm install`, `snapshot_display`, `hvigorw`, running a HarmonyOS emulator, installing `.hap` files, dumping UI trees, injecting gestures, taking screenshots, or any HarmonyOS app testing, automation, or QA work. Also trigger on well-known tooling errors like `ERR_WORKER_INVALID_EXEC_ARGV` or `NODE_OPTIONS` issues. Do NOT use for writing ArkTS/ArkUI code or Android/adb tasks — this is purely the host-side CLI toolchain.
 ---
 
 # HarmonyOS App Testing
@@ -8,6 +8,21 @@ description: Drive HarmonyOS / OpenHarmony apps running on a device or emulator 
 End-to-end toolkit for interacting with a HarmonyOS / OpenHarmony app running on an emulator or physical device, using only the HarmonyOS SDK CLI tools (`hdc`, `uitest`, `hilog`, `aa`, `bm`, `snapshot_display`). No DevEco Studio GUI required.
 
 Everything here works against any HarmonyOS target reachable through `hdc` — physical phones in USB debug mode, the official HarmonyOS Emulator, OpenHarmony devices, any screen resolution, any device form factor. Resolve tool paths from the user's environment; **never hardcode** SDK / DevEco install paths.
+
+### When to use this skill
+
+Trigger when the user mentions any of these tools, actions, or error patterns:
+
+- **Tools**: `hdc`, `uitest`, `hilog`, `aa start`, `bm install`, `snapshot_display`, `hvigorw`, `Emulator -list`
+- **Actions**: launching a HarmonyOS emulator, installing/starting a HAP, dumping the UI tree, viewing/filtering logs, injecting taps/swipes/drags/flings/multi-finger gestures/key events/text, taking screenshots, recording video
+- **Keywords**: "HarmonyOS emulator", "OpenHarmony device", `.hap` files, `EntryAbility`, `com.example.*` bundle names
+- **Error patterns**: `ERR_WORKER_INVALID_EXEC_ARGV`, `--openssl-legacy-provider`, `NODE_OPTIONS` errors from `hvigorw`, `hdc file recv` pulling garbled files on Git Bash/MSYS, `hilog` blocking forever in a script, `aa start`/`bm install` "multiple targets" errors
+
+### When NOT to use this skill
+
+- Writing ArkTS/ArkUI application code → use `harmonyos-app-dev` instead
+- Designing HarmonyOS components or configuring `module.json5` → use `harmonyos-app-dev` instead
+- Android/adb tasks → this is `hdc`, not `adb`
 
 ---
 
