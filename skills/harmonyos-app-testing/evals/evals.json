@@ -1,0 +1,53 @@
+{
+  "skill_name": "harmonyos-app-testing",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我把这个 HarmonyOS 项目编译成 HAP 然后装到模拟器上运行起来。项目就在当前目录，bundle 是 com.example.myapp，主 ability 叫 EntryAbility。",
+      "expected_output": "Build with hvigorw assembleHap, start emulator via Emulator -list / Emulator -start, wait for hdc list targets, install via hdc app install, launch via hdc shell aa start. Use unset NODE_OPTIONS, handle MSYS path mangling.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I need to see the current UI hierarchy of my app on the emulator. It's bundle com.example.myapp running on a tablet.",
+      "expected_output": "Use uitest dumpLayout -b com.example.myapp with -p flag to save to on-device path, then hdc file recv to pull the JSON. If on Windows/Git Bash, use MSYS_NO_PATHCONV=1. Parse JSON to read bounds/text/clickable attributes.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "我的 app 在模拟器上跑起来了，我想点一下屏幕中间偏下的一个按钮看看效果，屏幕是 2560x1600。同时帮我把最近的 JSAPP 日志抓出来。",
+      "expected_output": "Use uitest uiInput click with coordinates around (1280, 1100). Use hdc shell hilog -x -z 200 -T JSAPP to get recent JSAPP-tagged logs. Both commands via hdc shell.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Take a screenshot of the HarmonyOS emulator and save it to my desktop.",
+      "expected_output": "Use snapshot_display -f /data/local/tmp/screen.jpeg on device, then hdc file recv to pull to host. Use MSYS_NO_PATHCONV=1 on Windows. Alternatively uitest screenCap.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "我的 HarmonyOS app 跑在模拟器上，我想抓一下 JSAPP 标签的日志来看看 console.log 输出，但 hdc hilog 这个命令一直卡住不退，怎么拿到最近 500 行日志然后退出？另外我想只过滤 WARN 和 ERROR 级别的。",
+      "expected_output": "Use `hdc shell \"hilog -x -z 500 -T JSAPP -L W,E\"`. The `-x` flag is exit mode (non-blocking), `-z` sets tail count, `-T` filters tag, `-L` filters level. NEVER use bare `hdc hilog` for scripting — it blocks forever. Use `hdc shell \"hilog -x -z N\"` pattern for one-shot dumps.",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "我想录制一下 HarmonyOS 模拟器上 app 的操作过程然后回放看看。有没有类似 Android uiautomator 录制/回放的功能？另外我在模拟器上没找到 screenrecord 命令，想录个 10 秒的视频怎么搞？",
+      "expected_output": "Recording: `uitest uiRecord` — `hdc shell \"uitest uiRecord record -W true -l -c true\"` starts saving events to CSV, `hdc shell \"uitest uiRecord read\"` reads them back. Video fallback when screen_record is missing: loop `snapshot_display -f /data/local/tmp/frames/fNN.jpeg` at ~5 fps, pull frames with MSYS_NO_PATHCONV=1 hdc file recv, stitch with ffmpeg.",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "My HarmonyOS app has a zoomable image viewer that needs a pinch-to-zoom gesture. The uitest uiInput only does single-finger stuff — how do I simulate two fingers pinching at the same time?",
+      "expected_output": "`uitest uiInput` doesn't support multi-touch. Drop to `uinput -T -m` which sends raw touch-screen events. To simulate a pinch: inject two touch-down events at different (x,y), then a series of move events sliding fingers toward/away from each other, then touch-up. Use `hdc shell \"uinput -T -m x1 y1 x2 y2 duration\"` for swipes; send parallel uinput commands for true multi-finger. Also mention `uinput -M` (mouse) and `uinput -S` (stylus) for completeness.",
+      "files": []
+    },
+    {
+      "id": 8,
+      "prompt": "我在 Windows Git Bash 下运行 hdc file recv /data/local/tmp/layout.json ./layout.json，结果拉下来的文件只有 1 字节，或者路径变成了奇怪的 Windows 路径。这是怎么回事？怎么正确拉文件下来？",
+      "expected_output": "Git Bash / MSYS auto-translates leading `/` to Windows paths (e.g. `/data/...` becomes `C:/Program Files/Git/data/...`). The fix: prepend `MSYS_NO_PATHCONV=1` to suppress path mangling: `MSYS_NO_PATHCONV=1 hdc file recv /data/local/tmp/layout.json ./layout.json`. This applies to ALL hdc file recv and hdc file send commands with on-device paths starting with `/`.",
+      "files": []
+    }
+  ]
+}

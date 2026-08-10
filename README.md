@@ -13,6 +13,8 @@ fellow99 的技能集，用于日常工作自动化和提升效率。
 | **specs-based-devflow** | 全流程开发工作流：需求 → 规约 → 开发 → Code Review → 测试 → 缺陷修复 → 回归测试 | 需要从需求到交付完整地完成一个功能开发，涉及多阶段、多 artifact 的规范化流程 |
 | **codegraph-cli** | 使用 `codegraph` CLI 通过语义知识图谱探索、搜索和理解代码库 | 需要理解代码库结构、查找符号定义、分析调用关系、评估变更影响，替代繁琐的 grep/find/Read 循环 |
 | **esp32-image-to-argb** | 将 PNG/JPG 图片转换为 ESP32 兼容的 C 头文件，支持 5 种像素格式（RGB565/ARGB1555/ARGB8888/ARGB_4444/ALPHA_8），生成 LVGL 或 TFT_eSPI 格式输出 | 需要将图片转为 ESP32 C 数组、嵌入式显示资源、LVGL 图像资产、TFT_eSPI 图像转换 |
+| **harmonyos-app-dev** | 鸿蒙应用开发全流程：从项目搭建、ArkTS/ArkUI 编码、Stage 模型到发布前代码审查与安全审计 | 需要开发鸿蒙应用、编写 ArkTS/ArkUI 代码、使用 Stage 模型、鸿蒙代码审查、安全审计、质量门禁 |
+| **harmonyos-app-testing** | 通过 `hdc` 工具链驱动 HarmonyOS/OpenHarmony 应用：构建→安装→启动→检查→交互，无需 DevEco Studio GUI | 需要启动鸿蒙模拟器、安装/启动 HAP、查看 UI 树、过滤 hilog 日志、注入点击/滑动/手势/按键、截图、录屏、鸿蒙应用自动化测试 |
 
 > 💡 每个技能的详细用法请参考 `skills/<skill-name>/SKILL.md` 和 `skills/<skill-name>/README.md`
 
@@ -51,6 +53,8 @@ clawhub install openrouter-image-generation
 clawhub install specs-based-devflow
 clawhub install codegraph-cli
 clawhub install esp32-image-to-argb
+clawhub install harmonyos-app-dev
+clawhub install harmonyos-app-testing
 ```
 
 根据 ClawHub 的 registry 规则，发布到 ClawHub 的 skill 会以 `MIT-0` 许可分发。
