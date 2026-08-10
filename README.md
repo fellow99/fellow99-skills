@@ -36,15 +36,15 @@ npx skills add fellow99/fellow99-skills
 `npx skills add` 支持安装本仓库中的单个技能：
 
 ```bash
-npx skills add fellow99/fellow99-skills/opencode-api
-npx skills add fellow99/fellow99-skills/qwen-image
-npx skills add fellow99/fellow99-skills/opus-specs-as-built
-npx skills add fellow99/fellow99-skills/openrouter-image-generation
-npx skills add fellow99/fellow99-skills/specs-based-devflow
-npx skills add fellow99/fellow99-skills/codegraph-cli
-npx skills add fellow99/fellow99-skills/esp32-image-to-argb
-npx skills add fellow99/fellow99-skills/harmonyos-app-dev
-npx skills add fellow99/fellow99-skills/harmonyos-app-testing
+npx skills add https://github.com/fellow99/fellow99-skills --skill opencode-api
+npx skills add https://github.com/fellow99/fellow99-skills --skill qwen-image
+npx skills add https://github.com/fellow99/fellow99-skills --skill opus-specs-as-built
+npx skills add https://github.com/fellow99/fellow99-skills --skill openrouter-image-generation
+npx skills add https://github.com/fellow99/fellow99-skills --skill specs-based-devflow
+npx skills add https://github.com/fellow99/fellow99-skills --skill codegraph-cli
+npx skills add https://github.com/fellow99/fellow99-skills --skill esp32-image-to-argb
+npx skills add https://github.com/fellow99/fellow99-skills --skill harmonyos-app-dev
+npx skills add https://github.com/fellow99/fellow99-skills --skill harmonyos-app-testing
 ```
 
 ### 发布到 skills.sh
