@@ -31,61 +31,39 @@ fellow99 的技能集，用于日常工作自动化和提升效率。
 npx skills add fellow99/fellow99-skills
 ```
 
-### 发布到 ClawHub / OpenClaw
+### 按需安装单个技能
 
-本仓库支持将每个 `skills/*` 目录作为独立 ClawHub skill 发布。
+`npx skills add` 支持安装本仓库中的单个技能：
+
+```bash
+npx skills add fellow99/fellow99-skills/opencode-api
+npx skills add fellow99/fellow99-skills/qwen-image
+npx skills add fellow99/fellow99-skills/opus-specs-as-built
+npx skills add fellow99/fellow99-skills/openrouter-image-generation
+npx skills add fellow99/fellow99-skills/specs-based-devflow
+npx skills add fellow99/fellow99-skills/codegraph-cli
+npx skills add fellow99/fellow99-skills/esp32-image-to-argb
+npx skills add fellow99/fellow99-skills/harmonyos-app-dev
+npx skills add fellow99/fellow99-skills/harmonyos-app-testing
+```
+
+### 发布到 skills.sh
+
+本仓库支持将每个 `skills/*` 目录作为独立 skill 发布到 [skills.sh](https://skills.sh)。
 
 ```bash
 # 预览将要发布的变更
-./scripts/sync-clawhub.sh --dry-run
+./scripts/sync-skills-sh.sh --dry-run
 
 # 发布 ./skills 下所有已变更的 skill
-./scripts/sync-clawhub.sh --all
+./scripts/sync-skills-sh.sh --all
 ```
 
-ClawHub 按"单个 skill"安装，不是把整个 marketplace 一次性装进去。发布后，用户可以按需安装：
+发布后，用户可以在 skills.sh 上浏览和安装。
 
-```bash
-clawhub install opencode-api
-clawhub install qwen-image
-clawhub install opus-specs-as-built
-clawhub install openrouter-image-generation
-clawhub install specs-based-devflow
-clawhub install codegraph-cli
-clawhub install esp32-image-to-argb
-clawhub install harmonyos-app-dev
-clawhub install harmonyos-app-testing
-```
+### 告诉 AI Agent
 
-根据 ClawHub 的 registry 规则，发布到 ClawHub 的 skill 会以 `MIT-0` 许可分发。
-
-### 注册插件市场
-
-在 Claude Code 中运行：
-
-```bash
-/plugin marketplace add fellow99/fellow99-skills
-```
-
-### 安装技能
-
-**方式一：通过浏览界面**
-
-1. 选择 **Browse and install plugins**
-2. 选择 **fellow99-skills**
-3. 选择 **fellow99-skills** 插件
-4. 选择 **Install now**
-
-**方式二：直接安装**
-
-```bash
-# 安装 marketplace 中唯一的插件
-/plugin install fellow99-skills@fellow99-skills
-```
-
-**方式三：告诉 Agent**
-
-直接告诉 Claude Code：
+直接告诉你的 AI Agent（OpenCode / Claude Code / Codex 等）：
 
 > 请帮我安装 github.com/fellow99/fellow99-skills 中的 Skills
 
