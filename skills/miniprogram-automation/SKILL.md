@@ -65,10 +65,17 @@ npm install miniprogram-automator@latest --save-dev
 新版（`0.12.x`）使用正确的 `cli auto --project <path> --auto-port <port>` 语法。
 
 ### 1.4 安全设置
-使用 `automator.launch()` 前，必须提醒用户检查：
-- 微信开发者工具 → 设置 → 安全设置 → 开启 **服务端口**
+这里涉及**两个不同的端口**，容易混淆，务必分清：
 
-没有这一步，脚本常见表现是：
+| 端口 | 作用 | 在哪设置 |
+|---|---|---|
+| **HTTP 服务端口** | 开发者工具本地 HTTP 服务，CLI 命令（如 `--port`）管理工具用 | 设置 → 安全设置 → 开启 **服务端口** |
+| **自动化 ws 端口** | `automator` 连接用的 WebSocket 端点（默认 `9420`） | 由 `cli auto --auto-port <port>` 或 `automator` 动态开启 |
+
+- 使用 `automator.launch()` 前，必须提醒用户开启 **HTTP 服务端口**（安全设置 → 服务端口）。
+- 使用 `connect()` / CLI v2 方式时，还需确保 **自动化 ws 端口** 就绪（见方式二、模板 E）。
+
+没有开启 HTTP 服务端口这一步，脚本常见表现是：
 - launch 失败
 - 连接超时
 - CLI 可执行但 WebSocket 建不起来
@@ -511,6 +518,30 @@ run().catch((error) => {
 - `console` 事件回调拿到的 payload 通常包含 `type` 和 `args`
 - 做失败判定时，优先按 `payload.type === 'error'` 过滤，不要把正常 `log` 一起算成失败
 
+## 模板 D：批量截图脚本片段
+
+当用户要批量截图多个页面、做视觉回归、输出 PNG 清单时，可以复用这一段。
+
+```js
+const PAGES = [
+  { id: 'home', path: '/pages/home/index' },
+  { id: 'list', path: '/pages/list/index' },
+]
+
+for (const item of PAGES) {
+  const page = await miniProgram.reLaunch(item.path)
+  await page.waitFor(500)
+  await miniProgram.screenshot({
+    path: path.join(OUTPUT_DIR, `${item.id}.png`),
+  })
+}
+```
+
+补充说明：
+- 如果页面依赖异步请求或动画，不要只靠 `waitFor(500)`，要配合选择器等待
+- 最好输出 `index.json` 汇总每页是否成功
+- 用户只想截图时，也可以直接按这个方向生成专门脚本
+
 ## 模板 E：CLI v2 + `connect()` 完整脚本
 
 当用户说"开发者工具已经开着""不想重启工具""launch 报错想换一种方式"，用这个模板。
@@ -616,30 +647,6 @@ main().catch((error) => {
 - `connect()` 的 `close()` **只断开 WebSocket 连接**，不会关闭开发者工具窗口——这与 `launch()` 后的 `close()` 行为不同
 - `--auto-port` 是自动化 ws 端口（automator 连接用），`--port` 是工具 HTTP 服务端口（CLI 管理用），两者不同
 - 如果不确定工具 HTTP 端口，可先用 `detectHttpPort()` 探测；如果工具没有运行，CLI 会自行启动
-
-## 模板 D：批量截图脚本片段
-
-当用户要批量截图多个页面、做视觉回归、输出 PNG 清单时，可以复用这一段。
-
-```js
-const PAGES = [
-  { id: 'home', path: '/pages/home/index' },
-  { id: 'list', path: '/pages/list/index' },
-]
-
-for (const item of PAGES) {
-  const page = await miniProgram.reLaunch(item.path)
-  await page.waitFor(500)
-  await miniProgram.screenshot({
-    path: path.join(OUTPUT_DIR, `${item.id}.png`),
-  })
-}
-```
-
-补充说明：
-- 如果页面依赖异步请求或动画，不要只靠 `waitFor(500)`，要配合选择器等待
-- 最好输出 `index.json` 汇总每页是否成功
-- 用户只想截图时，也可以直接按这个方向生成专门脚本
 
 ## Jest 版何时给
 
