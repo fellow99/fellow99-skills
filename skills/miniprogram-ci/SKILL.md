@@ -575,7 +575,7 @@ main();
 创建 `.env` 文件（需配合 `dotenv` 或 shell `source`）：
 
 ```env
-MP_APPID=wx1234567890abcdef
+MP_APPID=wxXXXXXXXXXXXXXXXX
 MP_PRIVATE_KEY_PATH=./private.wxXXXX.key
 MP_PROJECT_PATH=./dist
 MP_ROBOT=1
