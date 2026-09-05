@@ -15,8 +15,13 @@ fellow99 的技能集，用于日常工作自动化和提升效率。
 | **esp32-image-to-argb** | 将 PNG/JPG 图片转换为 ESP32 兼容的 C 头文件，支持 5 种像素格式（RGB565/ARGB1555/ARGB8888/ARGB_4444/ALPHA_8），生成 LVGL 或 TFT_eSPI 格式输出 | 需要将图片转为 ESP32 C 数组、嵌入式显示资源、LVGL 图像资产、TFT_eSPI 图像转换 |
 | **harmonyos-app-dev** | 鸿蒙应用开发全流程：从项目搭建、ArkTS/ArkUI 编码、Stage 模型到发布前代码审查与安全审计 | 需要开发鸿蒙应用、编写 ArkTS/ArkUI 代码、使用 Stage 模型、鸿蒙代码审查、安全审计、质量门禁 |
 | **harmonyos-app-testing** | 通过 `hdc` 工具链驱动 HarmonyOS/OpenHarmony 应用：构建→安装→启动→检查→交互，无需 DevEco Studio GUI | 需要启动鸿蒙模拟器、安装/启动 HAP、查看 UI 树、过滤 hilog 日志、注入点击/滑动/手势/按键、截图、录屏、鸿蒙应用自动化测试 |
+| **miniprogram-automation** | 使用 `miniprogram-automator` 驱动微信开发者工具，完成页面跳转、元素查询、交互、Mock、运行时监听、截图与回归验证 | 需要小程序自动化测试、E2E、DevTools 连接、`waitFor`、自定义组件选择器、Mock `wx` 方法、控制台/异常监听、截图、回归检查、排障启动失败/连接超时/元素未找到 |
+| **miniprogram-ci** | 通过 `miniprogram-ci` 实现微信小程序的自动上传、预览、npm 打包与预览二维码生成，支持 CI/CD 流水线集成 | 需要"上传小程序"、"预览"、"CI 部署"、"自动化上传"、"发布小程序版本"、"生成预览二维码"、"打包 npm（pack-npm）"、GitHub Actions / GitLab CI 小程序集成 |
 
 > 💡 每个技能的详细用法请参考 `skills/<skill-name>/SKILL.md` 和 `skills/<skill-name>/README.md`
+
+> 📌 **来源说明**：`miniprogram-automation` 与 `miniprogram-ci` 两个技能来自
+> [whinc/super-skills](https://github.com/whinc/super-skills)（Commit `2359c33`）。
 
 ## 前置要求
 
@@ -45,6 +50,8 @@ npx skills add https://github.com/fellow99/fellow99-skills --skill codegraph-cli
 npx skills add https://github.com/fellow99/fellow99-skills --skill esp32-image-to-argb
 npx skills add https://github.com/fellow99/fellow99-skills --skill harmonyos-app-dev
 npx skills add https://github.com/fellow99/fellow99-skills --skill harmonyos-app-testing
+npx skills add https://github.com/fellow99/fellow99-skills --skill miniprogram-automation
+npx skills add https://github.com/fellow99/fellow99-skills --skill miniprogram-ci
 ```
 
 ### 告诉 AI Agent
