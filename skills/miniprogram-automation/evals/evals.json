@@ -3,7 +3,7 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "我要用 miniprogram-automator 对官方 demo（/Users/whincwu/WeChatProjects/wechat-miniprogram-skills/miniprogram-demo/miniprogram 目录）做自动化测试。首先 reLaunch 到首页 page/component/index，等待页面稳定后，读取页面的导航栏标题（通常是 .title 或相似选择器），并截图保存到 outputs 目录。请先说明前置检查，再给完整脚本。",
+      "prompt": "我要用 miniprogram-automator 对官方 demo（/path/to/miniprogram-demo/miniprogram 目录）做自动化测试。首先 reLaunch 到首页 page/component/index，等待页面稳定后，读取页面的导航栏标题（通常是 .title 或相似选择器），并截图保存到 outputs 目录。请先说明前置检查，再给完整脚本。",
       "expected_output": "给出可直接运行的脚本，明确提醒 projectPath 应指向开发者工具实际打开的目录（不能仅写死 /miniprogram 子目录），包含安全设置、首页固定等待兜底（waitFor(2000)）、截图、关闭流程。",
       "files": [],
       "assertions": [
